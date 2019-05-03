@@ -1,0 +1,5 @@
+[version]
+0.97.0
+
+[options]
+server.max_workers=1

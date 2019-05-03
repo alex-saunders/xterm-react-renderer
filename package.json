@@ -1,0 +1,40 @@
+{
+  "name": "xterm-react-renderer",
+  "version": "0.1.0",
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-function-bind": "^7.2.0",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-flowtype": "^3.7.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "fbjs": "^1.0.0",
+    "flow-bin": "^0.97.0",
+    "prettier": "^1.17.0",
+    "react-reconciler": "^0.20.4",
+    "react-styleguidist": "^9.0.9",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.30.0",
+    "xterm": "^3.12.2"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "scripts": {
+    "dev": "styleguidist server",
+    "flow": "flow"
+  }
+}
