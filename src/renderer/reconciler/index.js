@@ -94,7 +94,6 @@ const XTermRenderer = Reconciler({
   },
 
   removeChildFromContainer(container, child) {
-    child.removeSelf();
     container.removeChild(child);
 
     console.log('removeChildFromContainer', container, child);
@@ -105,11 +104,6 @@ const XTermRenderer = Reconciler({
   },
 
   appendChildToContainer(container, child) {
-    // container.appendChild(child)
-    // createElement('text', child);
-    // child.appendChild(child.props.children);
-    console.log('appendChildToContainer', container, child);
-    child.appendChild(child.props.children, container.position);
     container.appendChild(child);
   },
 
@@ -126,6 +120,11 @@ const XTermRenderer = Reconciler({
         child.appendChild();
       }
     }
+  },
+
+  insertInContainerBefore(container, child, beforeChild) {
+    container.appendBefore(child, beforeChild);
+    console.log('insertInContainerBefore', container, child, beforeChild);
   },
 
   appendInitialChild(parentInstance, child) {
@@ -146,7 +145,9 @@ const XTermRenderer = Reconciler({
     newProps,
     internalInstanceHandle
   ) {
+    console.log('commitUpdate');
     if (updatePayload) {
+      console.log('UPDATE');
       instance.replaceChild(updatePayload.children);
     }
 

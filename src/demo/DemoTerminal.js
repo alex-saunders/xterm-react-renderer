@@ -5,13 +5,23 @@ import { Terminal } from '../renderer';
 import '../renderer/styles/index.css';
 
 type State = {
-  text: string
+  text: string,
+  isActive: boolean
 };
 
 class DemoTerminal extends Component<*, State> {
   state = {
-    text: 'start typing something!'
+    text: 'start typing something!',
+    isActive: false
   };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        isActive: true
+      });
+    }, 1000);
+  }
 
   handleKeyDown = key => {
     this.setState(prevState => ({
@@ -36,7 +46,7 @@ class DemoTerminal extends Component<*, State> {
 
   render() {
     const lines = this.state.text.split('\n');
-    console.log('LINES', lines);
+
     return (
       <div className="terminal-container">
         <Terminal
@@ -44,11 +54,14 @@ class DemoTerminal extends Component<*, State> {
           onKeyDown={this.handleKeyDown}
           onBackspace={this.handleBackspace}
         >
+          <text>hi</text>
+          {this.state.isActive ? <text>ACTIVE</text> : null}
+          <text>hi again</text>
           {lines.map((line, index) =>
             index + 1 >= lines.length ? (
-              <text>{line}</text>
+              <text key={`${line}-${index}`}>{line}</text>
             ) : (
-              <line>{line}</line>
+              <line key={`${line}-${index}`}>{line}</line>
             )
           )}
         </Terminal>

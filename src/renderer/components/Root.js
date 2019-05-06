@@ -1,5 +1,8 @@
 import { Terminal } from 'xterm';
 
+import Text from './Text';
+import Line from './Line';
+
 /**
  * Root is used when calling the custom `render()` method
  * (found in xterm-renderer/render/index.js)
@@ -12,28 +15,18 @@ class Root {
       cursorBlink: true
     });
 
-    this._row = 1;
-    this._column = 0;
+    this.position = [1, 1];
 
     this.children = [];
   }
 
-  get position() {
-    return [this._row, this._column];
-  }
-
-  set position(position) {
-    this.position = position;
-  }
-
-  appendChild(child) {
-    this.children.push(child);
-
+  _moveToEndOfInput() {
     // 'scroll to bottom/end of input'
     const maxChild = this.children.reduce(
       (currMax, child) =>
-        child.position[0] >= currMax.position[0] &&
-        child.position[1] >= currMax.position[1]
+        child.position[0] > currMax.position[0] ||
+        (child.position[0] === currMax.position[0] &&
+          child.position[1] >= currMax.position[1])
           ? child
           : currMax,
       {
@@ -42,18 +35,43 @@ class Root {
       }
     );
 
+    this.position = [
+      maxChild.position[0],
+      maxChild.position[1] + maxChild.text.length
+    ];
+
     this.root.write(
       `\x1b[${maxChild.position[0]};${maxChild.position[1] +
-        maxChild.text.length +
-        (maxChild.text ? 1 : 0)}H`
+        maxChild.text.length}H`
     );
   }
 
+  appendChild(child) {
+    this.children.push(child);
+
+    child.appendChild(child.props.children);
+
+    this._moveToEndOfInput();
+  }
+
+  appendBefore(child, beforeChild) {
+    this.position = beforeChild.position;
+
+    this.children.push(child);
+
+    child.appendChild(child.props.children);
+
+    this._moveToEndOfInput();
+  }
+
   removeChild(child) {
-    const index = this.children.findIndex(
-      _child => _child.position === child.position
+    this.children = this.children.filter(
+      _child => _child.position !== child.position
     );
-    this.children.splice(index, 1);
+
+    child.removeSelf();
+
+    this._moveToEndOfInput();
   }
 }
 

@@ -12,27 +12,34 @@ class Line {
     this.terminal = this.root.root;
   }
 
-  goToPosition(row, col) {
-    console.log('goToPosition', row);
+  goToPosition(row = this.position[0], col = this.position[1]) {
     this.terminal.write(`\x1b[${row};${col}H`);
   }
 
-  replaceChild(child) {
-    console.log('replaceChild', child);
-    this.goToPosition(this.root.position[0], 0);
-    this.position = [this.root.position[0], 0];
-
+  replaceChild(text) {
+    // erase old text
+    this.goToPosition(this.position[0], this.position[1] + this.text.length);
     this.terminal.write('\b \b'.repeat(this.text.length));
-    this.terminal.writeln(`${child}`);
 
-    this.root._row = this.root.position[0] + 1;
-    this.root._column = 0;
+    // write new text
+    this.terminal.writeln(`${text}`);
 
-    this.text = child;
+    this.text = text;
   }
 
-  appendChild(child) {
-    this.replaceChild(child);
+  appendChild(text) {
+    this.text = text;
+
+    // set this.position based off root's current position
+    this.position = [this.root.position[0], this.root.position[1]];
+
+    // go to this.position
+    this.goToPosition();
+    // write the text to the terminal
+    this.terminal.writeln(`${text}`);
+
+    // update root's position to account for the new txt
+    this.root.position = [this.position[0] + 1, 1];
   }
 
   updatePosition(deltaRow, deltaCol) {
