@@ -1,18 +1,20 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import { Terminal } from '../renderer';
 import '../renderer/styles/index.css';
 
 type State = {
   text: string,
-  isActive: boolean
+  isActive: boolean,
+  shouldClear: boolean
 };
 
 class DemoTerminal extends Component<*, State> {
   state = {
     text: 'start typing something!',
-    isActive: false
+    isActive: false,
+    shouldClear: false
   };
 
   componentDidMount() {
@@ -21,16 +23,21 @@ class DemoTerminal extends Component<*, State> {
         isActive: true
       });
     }, 1000);
+
+    setTimeout(() => {
+      this.setState({
+        shouldClear: true
+      });
+    }, 2000);
   }
 
-  handleKeyDown = key => {
+  handleKeyDown = (key: string) => {
     this.setState(prevState => ({
       text: prevState.text + key
     }));
   };
 
   handleEnter = () => {
-    console.log('enter');
     this.setState(prevState => ({
       text: prevState.text + '\n'
     }));
@@ -54,9 +61,13 @@ class DemoTerminal extends Component<*, State> {
           onKeyDown={this.handleKeyDown}
           onBackspace={this.handleBackspace}
         >
-          <text>hi</text>
-          {this.state.isActive ? <text>ACTIVE</text> : null}
-          <text>hi again</text>
+          {!this.state.shouldClear && (
+            <Fragment>
+              <line>hi</line>
+              {this.state.isActive ? <text>ACTIVE</text> : null}
+              <text>hi again</text>
+            </Fragment>
+          )}
           {lines.map((line, index) =>
             index + 1 >= lines.length ? (
               <text key={`${line}-${index}`}>{line}</text>

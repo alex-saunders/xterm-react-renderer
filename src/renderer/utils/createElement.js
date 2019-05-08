@@ -5,7 +5,6 @@ let ROOT_NODE_INSTANCE = null;
 
 function getHostContextNode(rootNode: Root) {
   if (typeof rootNode !== undefined) {
-    console.log(rootNode);
     // rootNode.root.clear();
     return (ROOT_NODE_INSTANCE = rootNode);
   } else {

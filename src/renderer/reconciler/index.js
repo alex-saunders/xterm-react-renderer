@@ -1,21 +1,11 @@
 import Reconciler from 'react-reconciler';
 import emptyObject from 'fbjs/lib/emptyObject';
+import emptyFn from 'fbjs/lib/emptyFunction';
 
 import { createElement, getHostContextNode } from '../utils/createElement';
 
-const getNewText = (oldProps, newProps) => {
-  const regex = new RegExp(`${oldProps.children}(.*)`);
-  const results = regex.exec(newProps.children);
-  if (results) {
-    console.log('NEW TEXT', results);
-    const newText = results[1];
-    return newText;
-  }
-};
-
 const XTermRenderer = Reconciler({
   createInstance(type, props, _internalInstanceHandle) {
-    console.log('createInstance');
     return createElement(type, props);
   },
 
@@ -31,13 +21,8 @@ const XTermRenderer = Reconciler({
     return inst;
   },
 
-  prepareForCommit(container) {
-    // container.root.write('\x1b[H\x1b[2J');
-
-    // container.root.reset();
-    // container.root.clear();
-    // container.root.write('\u001Bc');
-    console.log('prepareForCommit');
+  prepareForCommit(_container) {
+    emptyFn();
   },
 
   prepareUpdate(
@@ -57,8 +42,6 @@ const XTermRenderer = Reconciler({
   },
 
   getRootHostContext(instance) {
-    console.log('getRootHostContext', instance);
-
     return getHostContextNode(instance);
   },
 
@@ -90,73 +73,49 @@ const XTermRenderer = Reconciler({
   },
 
   removeChild() {
-    console.log('removeChild');
+    emptyFn();
   },
 
   removeChildFromContainer(container, child) {
     container.removeChild(child);
-
-    console.log('removeChildFromContainer', container, child);
-  },
-
-  createContainerChildSet() {
-    return [];
   },
 
   appendChildToContainer(container, child) {
     container.appendChild(child);
   },
 
-  appendChildToContainerChildSet(childSet, child) {
-    childSet.push(child);
-  },
-
-  replaceContainerChildren(container, newChildren) {
-    console.log('replaceContainerChildren', container, newChildren);
-    for (let child of newChildren) {
-      if (child.props && child.props.children) {
-        child.appendChild(child.props.children);
-      } else {
-        child.appendChild();
-      }
-    }
+  replaceContainerChildren(_container, _newChildren) {
+    emptyFn();
   },
 
   insertInContainerBefore(container, child, beforeChild) {
     container.appendBefore(child, beforeChild);
-    console.log('insertInContainerBefore', container, child, beforeChild);
   },
 
-  appendInitialChild(parentInstance, child) {
-    // parentInstance.appendChild(child);
-    // console.log('appendInitialChild', parentInstance, child);
-    // parentInstance.appendChild(child);
+  appendInitialChild(_parentInstance, _child) {
+    emptyFn();
   },
 
-  commitTextUpdate(textInstance, oldText, newText) {
-    // console.log('commitTextUpdate', textInstance, oldText, newText);
+  commitTextUpdate(_textInstance, _oldText, _newText) {
+    emptyFn();
   },
 
   commitUpdate(
     instance,
     updatePayload,
-    type,
-    oldProps,
-    newProps,
-    internalInstanceHandle
+    _type,
+    _oldProps,
+    _newProps,
+    _internalInstanceHandle
   ) {
-    console.log('commitUpdate');
     if (updatePayload) {
-      console.log('UPDATE');
       instance.replaceChild(updatePayload.children);
     }
-
-    console.log('commitUpdate', oldProps, newProps, updatePayload);
   },
 
-  resetAfterCommit() {},
-
-  finalizeContainerChildren(container, newChildren) {},
+  resetAfterCommit(_info) {
+    emptyFn();
+  },
 
   now() {
     return performance.now();

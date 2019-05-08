@@ -42,7 +42,7 @@ class Line {
     this.root.position = [this.position[0] + 1, 1];
   }
 
-  updatePosition(deltaRow, deltaCol) {
+  updatePosition(deltaRow) {
     this.goToPosition(this.position[0], this.text.length + 1);
 
     this.terminal.write('\b \b'.repeat(this.text.length + 1));

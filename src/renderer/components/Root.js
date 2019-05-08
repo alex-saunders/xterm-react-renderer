@@ -35,10 +35,10 @@ class Root {
       }
     );
 
-    this.position = [
-      maxChild.position[0],
-      maxChild.position[1] + maxChild.text.length
-    ];
+    // this.position = [
+    //   maxChild.position[0],
+    //   maxChild.position[1] + maxChild.text.length
+    // ];
 
     this.root.write(
       `\x1b[${maxChild.position[0]};${maxChild.position[1] +
