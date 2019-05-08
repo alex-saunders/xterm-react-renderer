@@ -28,7 +28,7 @@ function createElement(
     terminal: () => new Terminal(),
     text: () => new Text(ROOT_NODE_INSTANCE, props),
     line: () => new Line(ROOT_NODE_INSTANCE, props),
-    br: () => new Br(ROOT_NODE_INSTANCE),
+    br: () => new Br(ROOT_NODE_INSTANCE, props),
     default: undefined
   };
 

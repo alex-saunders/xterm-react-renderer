@@ -54,6 +54,7 @@ class DemoTerminal extends Component<*, State> {
   render() {
     const lines = this.state.text.split('\n');
 
+    console.log(lines);
     return (
       <div className="terminal-container">
         <Terminal
@@ -75,6 +76,15 @@ class DemoTerminal extends Component<*, State> {
               <line key={`${line}-${index}`}>{line}</line>
             )
           )}
+          {!this.state.shouldClear && (
+            <Fragment>
+              <br />
+              <br />
+            </Fragment>
+          )}
+          <br />
+          <br />
+          <text>{"i'm at the end!"}</text>
         </Terminal>
       </div>
     );

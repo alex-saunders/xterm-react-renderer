@@ -77,10 +77,12 @@ const XTermRenderer = Reconciler({
   },
 
   removeChildFromContainer(container, child) {
+    console.log('removeChildFromContainer', child);
     container.removeChild(child);
   },
 
   appendChildToContainer(container, child) {
+    console.log('appendChildToContainer', child);
     container.appendChild(child);
   },
 
@@ -89,6 +91,7 @@ const XTermRenderer = Reconciler({
   },
 
   insertInContainerBefore(container, child, beforeChild) {
+    console.log('insertInContainerBefore', child, beforeChild);
     container.appendBefore(child, beforeChild);
   },
 

@@ -47,6 +47,14 @@ class Root {
   }
 
   appendChild(child) {
+    if (child.props.children && typeof child.props.children !== 'string') {
+      console.error(
+        'Nested components are not supported!',
+        child.props.children
+      );
+      return;
+    }
+
     this.children.push(child);
 
     child.appendChild(child.props.children);

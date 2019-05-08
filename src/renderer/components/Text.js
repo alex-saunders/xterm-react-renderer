@@ -1,17 +1,14 @@
+import BaseComponent from './BaseComponent';
+
 /**
  * Text uses the `write` method available through XTerm to
  * write text to the terminal
  */
-class Text {
+class Text extends BaseComponent {
   constructor(root, props) {
-    this.root = root;
-    this.props = props;
+    super(root, props);
 
-    this.text = this.props.children;
-
-    this.terminal = this.root.root;
-
-    this.position = [this.root.position[0], this.root.position[1]];
+    this.text = props.children;
   }
 
   goToPosition(row = this.position[0], col = this.position[1]) {
@@ -60,10 +57,18 @@ class Text {
         child !== this
     );
 
-    // TODO: make this efficient - we reverse the array so that
-    // children are not overwritten by the deletion of future iterations
+    // sort the array so that children are not overwritten
+    // by the deletion of future iterations
     // that is required when we call updatePosition.
-    for (let child of collidingChildren.reverse()) {
+    collidingChildren.sort((childA, childB) => {
+      if (delta > 0) {
+        return childB.position[1] - childA.position[1];
+      } else {
+        return childA.position[1] - childB.position[1];
+      }
+    });
+
+    for (let child of collidingChildren) {
       child.updatePosition(0, delta);
     }
   }
