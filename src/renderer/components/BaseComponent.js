@@ -9,7 +9,7 @@
  *    render the new child, update sibling positions & update the root terminal
  *    `position` value to reflect the appended child
  *
- *  - `replaceChild(child)`
+ * - `replaceChild(child)`
  *    replace the current child (usually text) with the new `child` value,
  *    usually involves removing the characters of the old text + writing the new
  *    ones, updating sibling positions in the process.

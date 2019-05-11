@@ -1,7 +1,6 @@
 import { Terminal } from 'xterm';
 
-import Text from './Text';
-import Line from './Line';
+import Cursor from './Cursor';
 
 /**
  * Root is used when calling the custom `render()` method
@@ -20,8 +19,29 @@ class Root {
     this.children = [];
   }
 
-  _moveToEndOfInput() {
-    // 'scroll to bottom/end of input'
+  _moveToCursorOrEndOfInput() {
+    // first, try and find any <cursor /> components
+    const cursorChildren = this.children.filter(
+      child => child instanceof Cursor
+    );
+
+    // if there are more than one, error out
+    if (cursorChildren.length > 1) {
+      // eslint-disable-next-line
+      console.error('multiple <cursor /> components are not allowed!');
+    }
+
+    // if there is 1 cursor
+    if (cursorChildren.length === 1) {
+      // move the xterm cursor to the cursor component's position
+      const cursor = cursorChildren[0];
+      return this.root.write(
+        `\x1b[${cursor.position[0]};${cursor.position[1]}H`
+      );
+    }
+
+    // if there are no <cursor /> components, then
+    // move the xterm cursor to the bottom/end of input
     const maxChild = this.children.reduce(
       (currMax, child) =>
         child.position[0] > currMax.position[0] ||
@@ -35,14 +55,10 @@ class Root {
       }
     );
 
-    // this.position = [
-    //   maxChild.position[0],
-    //   maxChild.position[1] + maxChild.text.length
-    // ];
-
     this.root.write(
-      `\x1b[${maxChild.position[0]};${maxChild.position[1] +
-        maxChild.text.length}H`
+      `\x1b[${maxChild.position[0]};${
+        maxChild.position[1] + maxChild.text ? maxChild.text.length + 1 : 0
+      }H`
     );
   }
 
@@ -59,7 +75,7 @@ class Root {
 
     child.appendChild(child.props.children);
 
-    this._moveToEndOfInput();
+    this._moveToCursorOrEndOfInput();
   }
 
   appendBefore(child, beforeChild) {
@@ -69,7 +85,7 @@ class Root {
 
     child.appendChild(child.props.children);
 
-    this._moveToEndOfInput();
+    this._moveToCursorOrEndOfInput();
   }
 
   removeChild(child) {
@@ -79,7 +95,7 @@ class Root {
 
     child.removeSelf();
 
-    this._moveToEndOfInput();
+    this._moveToCursorOrEndOfInput();
   }
 }
 

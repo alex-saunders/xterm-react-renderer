@@ -14,7 +14,7 @@ class Br extends BaseComponent {
   appendChild(child) {
     if (child !== undefined && child !== null) {
       // eslint-disable-next-line no-console
-      console.error('<Br /> does not accept children! Received:', child);
+      console.error('<br /> does not accept children! Received:', child);
     }
 
     // set this.position based off root's current position
@@ -24,6 +24,13 @@ class Br extends BaseComponent {
     this.root.position = [this.position[0] + 1, 1];
   }
 
+  replaceChild(child) {
+    if (child !== undefined && child !== null) {
+      // eslint-disable-next-line no-console
+      console.error('<br /> does not accept children! Received:', child);
+    }
+  }
+
   updatePosition(deltaRow, deltaCol) {
     this.position = [this.position[0] + deltaRow, this.position[1] + deltaCol];
   }
@@ -31,7 +38,7 @@ class Br extends BaseComponent {
   updateSiblingPositions(deltaRow) {
     // find all children 'below' this line
     const childrenToUpdate = this.root.children.filter(
-      child => child !== this && child.position[0] >= this.position[0]
+      child => child !== this && child.position[0] > this.position[0]
     );
 
     // move them by deltaRow rows

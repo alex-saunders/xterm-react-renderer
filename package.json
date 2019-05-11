@@ -1,13 +1,14 @@
 {
-  "name": "xterm-react-renderer",
+  "name": "react-xterm-renderer",
   "version": "0.1.0",
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-proposal-function-bind": "^7.2.0",
-    "@babel/preset-env": "^7.4.4",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-function-bind": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/cli": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
@@ -33,8 +34,12 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
+  "resolutions": {
+    "babel-core": "^7.0.0-bridge.0"
+  },
   "scripts": {
     "dev": "styleguidist server",
-    "flow": "flow"
+    "flow": "flow",
+    "build": "babel src/renderer -d dist --copy-files"
   }
 }

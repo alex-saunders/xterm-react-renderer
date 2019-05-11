@@ -76,6 +76,7 @@ class DemoTerminal extends Component<*, State> {
               <line key={`${line}-${index}`}>{line}</line>
             )
           )}
+          <cursor />
           {!this.state.shouldClear && (
             <Fragment>
               <br />

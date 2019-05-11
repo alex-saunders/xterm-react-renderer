@@ -1,5 +1,5 @@
 // @flow
-import { Text, Line, Root, Terminal, Br } from '../components/';
+import { Text, Line, Root, Terminal, Br, Cursor } from '../components/';
 
 let ROOT_NODE_INSTANCE = null;
 
@@ -15,8 +15,14 @@ function getHostContextNode(rootNode: Root) {
   }
 }
 
-export type TerminalElement = Root | Terminal | Text | Line | Br;
-export type ElementIdentifier = 'ROOT' | 'terminal' | 'text' | 'line' | 'br';
+export type TerminalElement = Root | Terminal | Text | Line | Br | Cursor;
+export type ElementIdentifier =
+  | 'ROOT'
+  | 'terminal'
+  | 'text'
+  | 'line'
+  | 'br'
+  | 'cursor';
 
 // Creates an element with an element type, props and a root instance
 function createElement(
@@ -29,6 +35,7 @@ function createElement(
     text: () => new Text(ROOT_NODE_INSTANCE, props),
     line: () => new Line(ROOT_NODE_INSTANCE, props),
     br: () => new Br(ROOT_NODE_INSTANCE, props),
+    cursor: () => new Cursor(ROOT_NODE_INSTANCE, props),
     default: undefined
   };
 

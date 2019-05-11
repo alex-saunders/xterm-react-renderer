@@ -1,4 +1,5 @@
 import BaseComponent from './BaseComponent';
+import Cursor from './Cursor';
 
 /**
  * Text uses the `write` method available through XTerm to
@@ -69,6 +70,14 @@ class Text extends BaseComponent {
     });
 
     for (let child of collidingChildren) {
+      console.log(
+        'updating child',
+        child,
+        child.position,
+        this.position,
+        this.text,
+        delta
+      );
       child.updatePosition(0, delta);
     }
   }
