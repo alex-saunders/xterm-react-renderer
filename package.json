@@ -1,6 +1,7 @@
 {
   "name": "react-xterm-renderer",
   "version": "0.0.1-0",
+  "main": "dist/index.js",
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
@@ -40,6 +41,7 @@
   "scripts": {
     "dev": "styleguidist server",
     "flow": "flow",
-    "build": "babel src/renderer -d dist --copy-files"
+    "build": "babel src/renderer -d dist --copy-files",
+    "prepublishOnly": "yarn build"
   }
 }
